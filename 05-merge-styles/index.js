@@ -3,17 +3,18 @@ const { rm, writeFile, readFile, appendFile, readdir } = require('fs/promises');
 
 const sourceFolderPath = path.join(__dirname, 'styles');
 const distFolderPath = path.join(__dirname, 'project-dist');
-const bundleFilePath = path.join(distFolderPath, 'bundle.css');
 
-const createBundle = async () => {
+const createBundle = async (sourcePath, distPath) => {
+	const bundleFilePath = path.join(distPath, 'bundle.css');
+
   await writeFile(bundleFilePath, '');
   await rm(bundleFilePath, { recursive: true });
 
-  const files = await readdir(sourceFolderPath, { withFileTypes: true });
+  const files = await readdir(sourcePath, { withFileTypes: true });
 
   for (const file of files) {
     if (file.isFile(file)) {
-      const filePath = path.join(sourceFolderPath, file.name);
+      const filePath = path.join(sourcePath, file.name);
       const fileExt = path.parse(filePath).ext;
 
       if (fileExt === '.css') {
@@ -25,4 +26,4 @@ const createBundle = async () => {
   }
 };
 
-createBundle();
+createBundle(sourceFolderPath, distFolderPath);
