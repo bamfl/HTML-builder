@@ -5,9 +5,9 @@ const sourceFolderPath = path.join(__dirname, 'styles');
 const distFolderPath = path.join(__dirname, 'project-dist');
 const bundleFilePath = path.join(distFolderPath, 'bundle.css');
 
-writeFile(bundleFilePath, '');
 
 const createBundle = async () => {
+	await writeFile(bundleFilePath, '');
   await rm(bundleFilePath, { recursive: true });
 
   const files = await readdir(sourceFolderPath, { withFileTypes: true });
